@@ -10,14 +10,23 @@ screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Jumping Game")
 
 # Colors
-white = (255, 255, 255)
+pink = (247, 185, 215)
 
 # Player attributes
 player_x = 50
 player_y = height - 100
-player_velocity = 0
+player_velocity = -10
 jump_strength = -10
 gravity = 0.5
+
+# Player image
+player_image = pygame.image.load('barbie.png')
+# Get original dimensions
+original_width, original_height = player_image.get_size()
+desired_width = 150
+aspect_ratio = original_width / original_height
+desired_height = int(desired_width / aspect_ratio)
+player_image = pygame.transform.scale(player_image, (desired_width, desired_height))
 
 # Game loop
 while True:
@@ -27,22 +36,22 @@ while True:
             sys.exit()
 
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE and player_y == height - 100:
+            if event.key == pygame.K_SPACE and player_y == height - 300:
                 player_velocity = jump_strength
 
     # Update player
     player_velocity += gravity
     player_y += player_velocity
 
-    if player_y >= height - 100:
-        player_y = height - 100
+    if player_y >= height - 300:
+        player_y = height - 300
         player_velocity = 0
 
     # Clear the screen
-    screen.fill(white)
+    screen.fill(pink)
 
     # Draw player
-    pygame.draw.circle(screen, (0, 0, 255), (player_x, int(player_y)), 20)
+    screen.blit(player_image, (player_x, player_y))
 
     # Update display
     pygame.display.update()
